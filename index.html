@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Sistemas Distribuidos - Aula invertida 3</title>
+<script type="text/javascript">
+	function send() {
+		var fd = new FormData(document.forms[0]);
+		var keys = fd.keys();
+
+		var objASerializar = {};
+		// preencher chaves e valores do objeto pelo conteudo do formulario
+		while (k.next()) {
+			if (k.done)
+				break;
+			var keyName = k.value;
+			var val = fd.get(keyName)
+			objASerializar[keyName] = val;
+		}
+		// serializar objeto em string json
+		var objSerializado = JSON.stringify(objASerializar);
+		// fazer envio
+		xhttp.open("POST", "/addJsonSerializado", true);
+		xhttp.setRequestHeader("Content-type", "application/json");
+		xhttp.send(objSerializado);
+	}
+</script>
+</head>
+<body>
+<form onsubmit="return send();">
+<label for="nome">Nome</label>
+<input id="nome" type="text" name="nome" />
+<label for="telefone">Telefone</label>
+<input id="telefone" type="text" name="telefone" />
+<input type="submit" />
+</form>
+</body>
+</html>
