@@ -18,12 +18,12 @@ app.post('/addJsonSerializado', function(req, res) {
 	res.end("ok");
 });
 app.get('/lista', function(req, res) {
-	res.end(JSON.stringify(cadastros);
-}
+	res.end(JSON.stringify(cadastros));
+});
 // formulario
 app.get('/', function(req, res) {
 	 res.sendFile(path.join(__dirname + '/index.html'));
-}
+});
 
 chttp.listen(3002, function() {
 	console.log('listening on *:3002');

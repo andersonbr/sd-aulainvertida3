@@ -2,35 +2,43 @@
 <head>
 <title>Sistemas Distribuidos - Aula invertida 3</title>
 <script type="text/javascript">
-	function send() {
-		var fd = new FormData(document.forms[0]);
-		var keys = fd.keys();
+	window.onload = function() {
+		document.forms[0].onsubmit = function(e) {
+			if (e) e.preventDefault();
+			var fd = new FormData(document.forms[0]);
+			var k = fd.keys();
 
-		var objASerializar = {};
-		// preencher chaves e valores do objeto pelo conteudo do formulario
-		while (k.next()) {
-			if (k.done)
-				break;
-			var keyName = k.value;
-			var val = fd.get(keyName)
-			objASerializar[keyName] = val;
+			var objASerializar = {};
+			// preencher chaves e valores do objeto pelo conteudo do formulario
+			while ((n = k.next())) {
+				if (n.done) break;
+				var keyName = n.value;
+				var val = fd.get(keyName)
+				objASerializar[keyName] = val;
+			}
+			console.log("vai enviar dados:");
+			console.log(objASerializar);
+			// serializar objeto em string json
+			var objSerializado = JSON.stringify(objASerializar);
+			// fazer envio
+			var xhttp = new XMLHttpRequest()
+			xhttp.open("POST", "/addJsonSerializado", true);
+			xhttp.setRequestHeader("Content-type", "application/json");
+			xhttp.send(objSerializado);
+			document.querySelectorAll("form input[type=text]").forEach((e,i) => {console.log(e.value = "")})
+			alert("enviado");
+			return false;
 		}
-		// serializar objeto em string json
-		var objSerializado = JSON.stringify(objASerializar);
-		// fazer envio
-		xhttp.open("POST", "/addJsonSerializado", true);
-		xhttp.setRequestHeader("Content-type", "application/json");
-		xhttp.send(objSerializado);
 	}
 </script>
 </head>
 <body>
-<form onsubmit="return send();">
+<form method="POST" action="/addJsonSerializado" onsubmit="send(); return false;">
 <label for="nome">Nome</label>
 <input id="nome" type="text" name="nome" />
 <label for="telefone">Telefone</label>
 <input id="telefone" type="text" name="telefone" />
-<input type="submit" />
+<input type="submit" value="enviar" />
 </form>
 </body>
 </html>
